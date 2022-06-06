@@ -37,7 +37,7 @@ def save_answer(student_id, answers):
     student_id - str
     answers - str
     """
-    file = open('skolnieku_atbildes.txt', 'a')
+    file = open('student_summery.txt', 'a')
     file.write('\n' + student_id + '\n\n')
     file.write('\n'.join(answers))
     file.write('\n\n-----------\n')
@@ -64,8 +64,8 @@ system('cls')
 # Theacher
 if role == 1:
     tasks = []
+    tasks_correct_answers = []
     test_task = []
-    correct_answers_task = []
     test_correct_answers = []
 
     print('User:\n\t1. Tasks\n\t2. Test')
@@ -77,26 +77,26 @@ if role == 1:
         system('pause')
         system('cls')
 
-        for i in range(task_count):
+        for i in range(0, task_count):
             # Input task
             task = input(str(i + 1) + '. task: ')
             tasks.append(task)
 
             # Input task answer
             correct_answer = input('Task answer: ')
-            correct_answers_task.append(correct_answer)
+            tasks_correct_answers.append(correct_answer)
 
         save_data('tasks', tasks)
-        save_data('correct_answers_task', correct_answer)
+        save_data('tasks_correct_answers', correct_answer)
         system('pause')
 
     if task_test == 2:
         # Input test
-        test_task_count = int(input('Task count: '))
+        test_task_count = int(input('Test task count: '))
         system('pause')
         system('cls')
 
-        for i in range(test_task_count):
+        for i in range(0, test_task_count):
             # Input task
             test_task = input(str(i + 1) + '. task: ')
             test_task = test_task + test_task
@@ -121,16 +121,15 @@ if role == 2:
     if choise == 1:
         file = open('theory' + '.txt', 'r')
         file_content = file.read()
-        print(file_content)
         file.close()
+        print(file_content)
         system('pause')
         system('cls')
-
 
     # Task
     if choise == 2:
         tasks = take_data('tasks')
-        task_correct_answers = take_data('correct_answers_task')
+        task_correct_answers = take_data('tasks_correct_answers')
         task_count = len(tasks)
         task_answers = []
         task_correct_answers_count = 0
@@ -140,7 +139,7 @@ if role == 2:
         system('pause')
         system('cls')
 
-        for i in range(task_count):
+        for i in range(0, task_count):
             task = tasks[i]
             task_correct_answer = task_correct_answers[i]
             task_rezult = ''
@@ -155,14 +154,19 @@ if role == 2:
             if task_rezult == 'Right':
                 task_correct_answers_count += 1
 
-            task_answer = task_answer + (str(i + 1) + '. ' + str(task_answer) + ' (' + str(task_rezult) + ')')
+            task_answer = task_answer + (
+                str(i + 1) + '. ' + str(task_answer) + ' (' + str(
+                    task_rezult) + ')')
 
-            # Output rezult
-            print(task_rezult)
+        # Output rezult
+        print(task_rezult)
         task_proc = 100 / task_count * task_correct_answers_count  # count %
 
-        # Output summery
-        print('Right answer count: ', task_correct_answers_count, 'of', task_count, ' or', task_proc, '%')
+        # Output and save summery
+        summery = 'Right answer count: ', task_correct_answers_count,
+        'of', task_count, ' or', task_proc, '%'
+        print(summery)
+        save_answer(student_id, summery)
         system('pause')
         system('cls')
 
@@ -194,13 +198,19 @@ if role == 2:
             if rezult == 'Right':
                 test_correct_answers_count += 1
 
-            test_answer = test_answer + (str(i + 1) + '. ' + test_answer + ' (' + test_rezult + ')')
+            test_answer = test_answer + (
+                str(i + 1) + '. ' + test_answer + ' (' + test_rezult + ')')
 
-            # Output rezult
-            print(rezult)
+        # Output rezult
+        print(rezult)
         test_proc = 100 / test_count * test_correct_answers_count  # count %
 
-        # Output summery
-        print('Right answer count: ', test_correct_answers_count, 'of', test_count, ' or', test_proc, '%')
+        # Output and save summery
+        summery = 'Right answer count: ', test_correct_answers_count,
+        'of', test_count, ' or', test_proc, '%'
+        print(summery)
+        save_answer(student_id, summery)
         system('pause')
         system('cls')
+
+__version__ = 0
