@@ -15,7 +15,7 @@ def save_data(file_name, data):
     data - str
     """
     file = open(file_name + '.txt', 'w')
-    file.write('\n'.join(data))
+    file.write(''.join(data))
     file.close()
 
 
@@ -31,86 +31,96 @@ def take_data(file_name):
     return data
 
 
-def save_answer(student_id, answers):
+def save_summary(student_id, summary):
     """Save students answers.
 
     student_id - str
     answers - str
     """
-    file = open('student_summery.txt', 'a')
-    file.write('\n' + student_id + '\n\n')
-    file.write('\n'.join(answers))
-    file.write('\n\n-----------\n')
+    summary = str(summary)
+    file = open('student_summary/' + student_id + '.txt', 'a')
+    file.write(summary)
+    file.write('\n')
     file.close()
 
 
-def check(answer, correct_answer):
-    """Check that the student's answer is correct.
-
-    answer - str
-    correct_answer -str
-    """
-    if answer == correct_answer:
-        return 'Right'
-    else:
-        return 'Wrong'
-
-
 # Chose user
-print('User:\n\t1. theacher\n\t2. student')
-role = int(input('choise: '))
-system('cls')
+print('User:\n\t1. teacher\n\t2. student')
+role = 0
+while role != 1 or role != 2:
+    role = int(input('choise: '))
+    if role == 1 or role == 2:
+        break
 
 # Theacher
 if role == 1:
-    tasks = []
-    tasks_correct_answers = []
-    test_task = []
-    test_correct_answers = []
+    system('cls')
 
-    print('User:\n\t1. Tasks\n\t2. Test')
+    # Chose what to do
+    print('User:\n\t1. Tasks\n\t2. Test\n\t3. Student summary')
     task_test = int(input('choise: '))
 
+    # Make tasks
     if task_test == 1:
         # Input task count
         task_count = int(input('Task count: '))
         system('pause')
         system('cls')
+        tasks = [0] * task_count
+        tasks_correct_answers = [0] * task_count
 
         for i in range(0, task_count):
             # Input task
-            task = input(str(i + 1) + '. task: ')
-            tasks.append(task)
+            tasks[i] = input(str(i + 1) + '. task: ')
 
             # Input task answer
-            correct_answer = input('Task answer: ')
-            tasks_correct_answers.append(correct_answer)
+            tasks_correct_answers[i] = input('Task answer: ')
 
         save_data('tasks', tasks)
-        save_data('tasks_correct_answers', correct_answer)
+        save_data('tasks_correct_answers', tasks_correct_answers)
         system('pause')
 
+    # Make test
     if task_test == 2:
         # Input test
         test_task_count = int(input('Test task count: '))
         system('pause')
         system('cls')
+        test_task = [0] * test_task_count
+        test_correct_answers = [0] * test_task_count
 
         for i in range(0, test_task_count):
             # Input task
-            test_task = input(str(i + 1) + '. task: ')
-            test_task = test_task + test_task
+            test_task[i] = input(str(i + 1) + '. task: ')
 
             # Input task answer
-            test_correct_answer = input('Task answer: ')
-            test_correct_answer = test_correct_answer + test_correct_answer
+            test_correct_answers[i] = input('Task answer: ')
 
         save_data('test', test_task)
-        save_data('test_correct_answers', test_correct_answer)
+        save_data('test_correct_answers', test_correct_answers)
         system('pause')
+
+    # Student summary fo teacher
+    if task_test == 3:
+        system('cls')
+        student_id = 'student_summary/' + input('Student id: ')
+        summary = take_data(student_id)
+
+        tasks = take_data('tasks')
+        task_count = len(tasks)
+        test_tasks = take_data('test')
+        test_count = len(test_tasks)
+        summary_len = task_count + test_count
+        summary_len = summary_len // 2
+        for i in range(0, summary_len):
+            print(summary[i])
+        system('pause')
+        system('cls')
+
 
 # Student
 if role == 2:
+    system('cls')
 
     # Chose what to do
     print('1. Repeat theory\n2. Do tasks\n3. Do test\n')
@@ -145,36 +155,41 @@ if role == 2:
             task_rezult = ''
 
             # Output task
-            print(tasks)
+            print(task)
 
             # Input answer
             task_answer = input('answer: ')
-            task_rezult = check(task_answer, task_correct_answer)
 
-            if task_rezult == 'Right':
+            if task_answer == task_correct_answer:
+                task_rezult = 'Right'
                 task_correct_answers_count += 1
+            else:
+                task_rezult = 'Wrong'
 
-            task_answer = task_answer + (
-                str(i + 1) + '. ' + str(task_answer) + ' (' + str(
-                    task_rezult) + ')')
+            task_answer = task_answer + (str(i + 1) + '. ' +
+                                         str(task_answer) + ' (' +
+                                         str(task_rezult) + ')')
 
-        # Output rezult
-        print(task_rezult)
-        task_proc = 100 / task_count * task_correct_answers_count  # count %
+            # Output rezult
+            print(task_rezult)
+            system('pause')
+            system('cls')
 
-        # Output and save summery
-        summery = 'Right answer count: ', task_correct_answers_count,
-        'of', task_count, ' or', task_proc, '%'
-        print(summery)
-        save_answer(student_id, summery)
+        task_proc = 100 // task_count * task_correct_answers_count  # count %
+
+        # Output and save summary
+        summary = 'Tasks - right answer count: ', task_correct_answers_count, 'of', task_count, ' or', task_proc, '%'
+        print('Right answer count: ', task_correct_answers_count,
+              'of', task_count, ' or', task_proc, '%')
+        save_summary(student_id, summary)
         system('pause')
         system('cls')
 
     # Test
     if choise == 3:
-        test_task = take_data('test')
+        test_tasks = take_data('test')
         test_correct_answers = take_data('test_correct_answers')
-        test_count = len(test_task)
+        test_count = len(test_tasks)
         test_answers = []
         test_correct_answers_count = 0
 
@@ -184,8 +199,8 @@ if role == 2:
         system('cls')
 
         for i in range(0, test_count):
-            test = test_task[i]
-            correct_answer = test_correct_answers[i]
+            test_task = test_tasks[i]
+            test_correct_answer = test_correct_answers[i]
             rezult = ''
 
             # Output test task
@@ -193,24 +208,27 @@ if role == 2:
 
             # Input answer
             test_answer = input('answer: ')
-            test_rezult = check(test_answer, test_correct_answers)
-
-            if rezult == 'Right':
+            if test_answer == test_correct_answer:
+                test_rezult = 'Right'
                 test_correct_answers_count += 1
+            else:
+                test_rezult = 'Wrong'
 
-            test_answer = test_answer + (
-                str(i + 1) + '. ' + test_answer + ' (' + test_rezult + ')')
+            test_answer = test_answer + (str(i + 1) + '. ' + test_answer + ' (' + test_rezult + ')')
 
-        # Output rezult
-        print(rezult)
-        test_proc = 100 / test_count * test_correct_answers_count  # count %
+            # Output rezult
+            print(rezult)
+            system('pause')
+            system('cls')
 
-        # Output and save summery
-        summery = 'Right answer count: ', test_correct_answers_count,
-        'of', test_count, ' or', test_proc, '%'
-        print(summery)
-        save_answer(student_id, summery)
+        test_proc = 100 // test_count * test_correct_answers_count  # count %
+
+        # Output and save summary
+        summary = 'Test - right answer count: ', test_correct_answers_count, 'of', test_count, ' or', test_proc, '%'
+        print('Right answer count: ', test_correct_answers_count,
+              'of', test_count, ' or', test_proc, '%')
+        save_summary(student_id, summary)
         system('pause')
         system('cls')
 
-__version__ = 0
+__version__ = 2
