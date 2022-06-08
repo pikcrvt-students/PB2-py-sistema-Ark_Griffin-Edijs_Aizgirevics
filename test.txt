@@ -1,2 +1,3 @@
-3+3
-3*3
+Sadali reizinatajos n^3-t^3   P:a^3−b^3=(a−b)(a^2+ab+b^2)
+Izteiksmei 8b^3−1000p^3 ieraksti koeficientus   P:a^3−b^3=(a−b)(a^2+ab+b^2)
+Sadali reizinatajos x^3+8   P:a^3+b^3=(a+b)(a^2−ab+b^2)

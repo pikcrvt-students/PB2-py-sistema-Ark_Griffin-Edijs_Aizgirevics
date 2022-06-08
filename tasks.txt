@@ -1,2 +1,5 @@
-2+2
-3+3
+Ar ko ir vienads binoma kvadrats (d−t)^2?
+Sadali reizinatajos 64a^2+16ac+c^2
+Atbilde ieraksti tadu monomu, lai vienadiba butu patiesa! 49b^2-?+4=(7b-2)^2
+Sadali reizinatajos 100t^2+20tc+c^2
+Sadali reizinatajos x^3-216

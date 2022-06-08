@@ -14,7 +14,7 @@ def save_data(file_name, data):
     file_name - str
     data - str
     """
-    file = open(file_name + '.txt', 'w')
+    file = open(file_name + '.txt', 'w', encoding='utf-8')
     file.write(''.join(data))
     file.close()
 
@@ -24,7 +24,7 @@ def take_data(file_name):
 
     file_name - str
     """
-    file = open(file_name + '.txt', 'r')
+    file = open(file_name + '.txt', 'r', encoding='utf-8')
     file_content = file.read()
     file.close()
     data = file_content.split('\n')
@@ -38,17 +38,17 @@ def save_summary(student_id, summary):
     answers - str
     """
     summary = str(summary)
-    file = open('student_summary/' + student_id + '.txt', 'a')
+    file = open('student_summary/' + student_id + '.txt', 'a', encoding='utf-8')
     file.write(summary)
     file.write('\n')
     file.close()
 
 
-# Chose user
+# Choose user
 print('User:\n\t1. teacher\n\t2. student')
 role = 0
 while role != 1 or role != 2:
-    role = int(input('choise: '))
+    role = int(input('choice: '))
     if role == 1 or role == 2:
         break
 
@@ -56,9 +56,9 @@ while role != 1 or role != 2:
 if role == 1:
     system('cls')
 
-    # Chose what to do
+    # Choose what to do
     print('User:\n\t1. Tasks\n\t2. Test\n\t3. Student summary')
-    task_test = int(input('choise: '))
+    task_test = int(input('choice: '))
 
     # Make tasks
     if task_test == 1:
@@ -122,9 +122,9 @@ if role == 1:
 if role == 2:
     system('cls')
 
-    # Chose what to do
+    # Choose what to do
     print('1. Repeat theory\n2. Do tasks\n3. Do test\n')
-    choise = int(input('choise: '))
+    choise = int(input('choice: '))
     system('cls')
 
     # Theory
