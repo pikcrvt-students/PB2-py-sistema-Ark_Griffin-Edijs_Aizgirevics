@@ -230,7 +230,7 @@ if role == 2:
         grade = test_proc // 100 # Count grade
         # Output and save summary
         summary = 'Test - right answer count: ', test_correct_answers_count,\
-            'of', test_count, ' or', test_proc, '%'
+            'of', test_count, ' or', test_proc, '%', 'grade', grade
         print('Right answer count: ', test_correct_answers_count,
               'of', test_count, ' or', test_proc, '%', 'grade', grade)
         save_summary(student_id, summary)
